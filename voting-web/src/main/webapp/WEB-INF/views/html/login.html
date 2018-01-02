@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Keywords" content="ERP" />
+<meta name="Description" content="" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>hello world</title>
+<link href="/resources/css/login.css?v=0.2" rel="stylesheet" />
+</head>
+<body class="loginBg">
+	<div class="loginBox">
+		<form id="fm_login" class="form-signin">
+			<div class="loginHeadTitle">
+				<h3 class="text-center">登录页</h3>
+			</div>
+			<div class="loginContent">
+				<h4 class="titleLo">登陆信息</h4>
+				<div class="tableForm">
+					<label><i class="iconAws-user"></i></label> <input
+						class="form-control" id="loginname" name="loginname"
+						placeholder="请输入登录名" type="text">
+				</div>
+				<div class="tableForm">
+					<label class="iconAws-lock"></label> <input class="form-control"
+						id="password" name="password" placeholder="请输入密码" type="password">
+				</div>
+				<div class="footerLo">
+					<button class="formSubmit" type="button" onclick="login()">登录</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<script type="text/javascript">
+   $.fn.serializeJson=function(){var serializeObj={};var array=[];if(this.is("form")){array=this.serializeArray();}else{var _obj;this.find("[name]").each(function(){if($(this).attr("name")!=""){_obj={};_obj.name=$(this).attr("name");_obj.value=$(this).val();array.push(_obj);}});};$(array).each(function(){if(serializeObj[this.name]){if($.isArray(serializeObj[this.name])){if(this.value!=""){serializeObj[this.name].push(this.value);}}else{if(this.value!=""){serializeObj[this.name]=[serializeObj[this.name],this.value];}}}else{if(this.value!=""){serializeObj[this.name]=this.value;}}});return serializeObj;};function buttonStatus(obj,status){switch(status){case 0:$(obj).linkbutton("disable");break;case 1:$(obj).linkbutton("enable");break;}};function ajaxLoading(_text){var t=_text?_text:"正在处理，请稍候。。。";$('<div class="datagrid-mask"></div>').css({display:"block",width:"100%",height:$(window).height()}).appendTo("body");$('<div class="datagrid-mask-msg"></div>').html(t).appendTo("body").css({height:"auto",display:"block",left:($(document.body).outerWidth(true)-190)/2,top:($(window).height()-45)/2});};function ajaxLoadEnd(){$(".datagrid-mask").remove();$(".datagrid-mask-msg").remove();};function messagerShow(title,content){$.messager.show({title:title,msg:content,showType:"slide",style:{right:"",top:"43%",bottom:""}});};function ajaxRequest(opt){var o=$.extend({type:"POST",url:"",data:null,async:true,contentType:"application/x-www-form-urlencoded",success:null,error:null,fail:null,message:"请求成功",loading:true,buttonId:null},opt||{});if(o.loading){ajaxLoading();};if(o.buttonId){buttonStatus(o.buttonId,0);};$.ajax({type:o.type,url:o.url,data:o.data,contentType:o.contentType,async:o.async,success:function(data){ajaxLoadEnd();if(data==null){return;};if(data.status==1){if($.isEmptyObject(data.data)==true){if(o.message!=null){messagerShow("提示",o.message);}};if(o.success!=null&&typeof o.success=="function"){o.success(data.data);}}else if(data.status==-1){$.messager.alert("警告",data.data.message);console.info(data.data.exceptionMessage);if(o.fail!=null&&typeof o.fail=="function"){o.fail(data.data);}
+buttonStatus("#save",1);}else if(data.status==-2){$.messager.alert("警告","无权限","",function(){top.location.href="/toLogout";});}else if(data.status==-3){$.messager.alert("警告",data.data.message);if(o.fail!=null&&typeof o.fail=="function"){o.fail(data.data);}}else if(data.status==-4){$.messager.alert("参数错误",data.data.message);if(o.fail!=null&&typeof o.fail=="function"){o.fail(data.data);}}else{$.messager.alert("警告","请求失败");if(o.fail!=null&&typeof o.fail=="function"){o.fail(data.data);}};if(o.buttonId){buttonStatus(o.buttonId,1);}},error:function(){ajaxLoadEnd();if(o.error!=null&&typeof o.error=="function"){o.error();};if(o.buttonId){buttonStatus(o.buttonId,1);}}});}
+$(function(){if(top.location!=self.location){$.messager.alert("提示信息","登陆超时！请重新登陆！","info",function(){top.location.href="/toLogout";});};$("#password").keydown(function(event){if(event.keyCode==13){var userName=$("#loginname").val();var psd=$("#password").val();if(!userName){$.messager.alert("提示","请输入用户名");return;};if(!psd){$.messager.alert("提示","请输入密码");return;};login();}});});function login(){ajaxRequest({url:"/login",message:null,data:$("#fm_login").serializeJson(),success:function(data){window.location.href="/toIndex";}});}
+  </script>
+</body>
+</html>

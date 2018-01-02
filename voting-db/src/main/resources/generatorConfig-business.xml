@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+	<!-- <properties resource="shop-wms-db/mybatisGenProps.properties"/> -->
+	<!-- <classPathEntry location="F:\maven\yougou\repos\mysql\mysql-connector-java\5.1.27\mysql-connector-java-5.1.27.jar" 
+		/> -->
+	<context id="context1" targetRuntime="MyBatis3">
+		<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+		<!-- <plugin type="org.mybatis.generator.plugins.CachePlugin"> <property 
+			name="cache_eviction" value="LRU"/> <property name="cache_flushInterval" 
+			value="60000"/> <property name="cache_size" value="10"/> <property name="cache_type" 
+			value="org.mybatis.caches.redis.RedisCache"/> <property name="cache_readOnly" 
+			value="true" /> </plugin> -->
+		<commentGenerator>
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://127.0.0.1:3306/voit" userId="root"
+			password="" />
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+			<!-- number(默认为38位),当长度超过18位时无法强制转换decimal 默认false，把JDBC DECIMAL 和 NUMERIC 
+				类型解析为 Integer true，把JDBC DECIMAL 和 NUMERIC 类型解析为java.math.BigDecimal -->
+		</javaTypeResolver>
+
+		<javaModelGenerator targetPackage="com.voting.model.resource"
+			targetProject="voting-model">
+
+		</javaModelGenerator>
+		<sqlMapGenerator targetPackage="mapper.resource"
+			targetProject="voting-db/src/main/resources" />
+		<javaClientGenerator targetPackage="com.voting.db.dao.resource"
+			targetProject="voting-db" type="XMLMAPPER">
+			<!-- <property name="interfaceExtendSupInterface" value="com.xipin.zl.voting.db.dao.BaseMapper"/> -->
+			<property name="enableInterfaceSupInterfaceGenericity"
+				value="false" />
+			<property name="exclusionsMethods"
+				value="insert,deleteById,updateById,getById,queryListByParam" />
+		</javaClientGenerator>
+
+		<javaServiceGenerator targetPackage="com.voting.service.resource"
+			targetProject="voting-service" interfaceExtendSupInterface=""
+			enableInterfaceSupInterfaceGenericity="false" extendSupClass=""
+			enableSupClassGenericity="false" />
+
+
+		<javaManagerGenerator targetPackage="com.voting.manager.resource"
+			targetProject="voting-manager" interfaceExtendSupInterface=""
+			enableInterfaceSupInterfaceGenericity="false" extendSupClass=""
+			enableSupClassGenericity="false" />
+
+		<javaControllerGenerator targetPackage="com.voting.web.controller.resource"
+			targetProject="voting-web" extendSupClass=""
+			enableSupClassGenericity="true" />
+
+		<tableSetting isSchema="true" enableCountByExample="false"
+			enableUpdateByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" selectByExampleQueryId="false">
+			<prop name="replaceTablePrefix">
+				<list>
+					<prefix name="base_" value="" />
+				</list>
+			</prop>
+			<!-- 忽略schema，避免在xml中出现schema.表名 -->
+			<prop name="ignoreGeneratorSchema" value="true" />
+		</tableSetting>
+		<!-- 数据库类型映射 -->
+		<!-- <typeMapping> <property name="java.sql.Timestamp" value="java.util.Date"/> 
+			<property name="java.sql.Date" value="java.util.Date"/> <property name="java.sql.Time" 
+			value="java.util.Date"/> <property name="java.lang.Byte" value="java.lang.Integer"/> 
+			<property name="java.lang.Short" value="java.lang.Integer"/> <property name="java.sql.Types.SMALLINT" 
+			value="Integer"/> <property name="java.sql.Types.TINYINT" value="Integer"/> 
+			</typeMapping> -->
+	</context>
+</generatorConfiguration>
